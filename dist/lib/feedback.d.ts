@@ -1,5 +1,7 @@
 export interface FeedbackOptions {
-    classPrefix?: string;
+    classes: {
+        [key: string]: string;
+    };
     backgroundOpacity?: number;
     allowedTags?: string[];
     endpoint: string;
