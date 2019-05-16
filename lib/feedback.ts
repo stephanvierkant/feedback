@@ -19,7 +19,7 @@ import * as html2canvas from 'html2canvas';
 */
 
 export interface FeedbackOptions {
-  classPrefix?: string;
+  classes: { [key: string]: string; };
   backgroundOpacity?: number;
   allowedTags?: string[];
   endpoint: string;
@@ -87,7 +87,6 @@ interface Helper extends Area {
 export class Feedback {
 
   private _options: FeedbackOptions = {
-    classPrefix: 'fb-',
     backgroundOpacity: .5,
     allowedTags: [
       'button', 'a', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'p',
@@ -96,6 +95,12 @@ export class Feedback {
       'details', 'summary'
     ],
     endpoint: 'https://very-api-so-cool.url/',
+    classes: {
+      'prefix': 'fb-',
+      'button': 'mat-button',
+      'buttonPrimary': 'primary',
+      'buttonDefault': '',
+    },
     texts: {
       'describe': 'Describe your issue or share your ideas.',
       'title': 'Send feedback',
@@ -348,7 +353,7 @@ export class Feedback {
 
   private _createHeader(): HTMLDivElement {
     const header = document.createElement('div');
-    header.className = `${this._options.classPrefix}header`;
+    header.className = `${this._options.classes.prefix}header`;
 
     const headerH1 = document.createElement('h1');
     headerH1.innerText = this._options.texts.title;
@@ -358,7 +363,7 @@ export class Feedback {
 
   private _createForm(): HTMLDivElement {
     const container = document.createElement('div');
-    container.className = `${this._options.classPrefix}form-container`;
+    container.className = `${this._options.classes.prefix}form-container`;
     container.setAttribute('data-html2canvas-ignore', 'true');
     this._formContainer = container;
 
@@ -411,7 +416,7 @@ export class Feedback {
 
   private _createCheckboxContainer(): HTMLDivElement {
     const checkboxContainer = document.createElement('div');
-    checkboxContainer.className = `${this._options.classPrefix}checkbox`;
+    checkboxContainer.className = `${this._options.classes.prefix}checkbox`;
 
     const checkboxLabel = document.createElement('label');
     checkboxLabel.addEventListener('click', this._toggleScreenshot);
@@ -450,7 +455,7 @@ export class Feedback {
 
   private _createScreenshotContainer(): HTMLDivElement {
     const screenshotContainer = document.createElement('div');
-    screenshotContainer.className = `${this._options.classPrefix}screenshot`;
+    screenshotContainer.className = `${this._options.classes.prefix}screenshot`;
     screenshotContainer.addEventListener('click', this._openDrawer);
     this._screenshotContainer = screenshotContainer;
     return screenshotContainer;
@@ -465,11 +470,11 @@ export class Feedback {
 
   private _createActionsContainer(): HTMLDivElement {
     const actions = document.createElement('div');
-    actions.className = `${this._options.classPrefix}actions`;
+    actions.className = `${this._options.classes.prefix}actions`;
 
     const sendButtonContainer = document.createElement('div');
-    sendButtonContainer.classList.add('mat-button');
-    sendButtonContainer.classList.add('primary');
+    sendButtonContainer.classList.add(this._options.classes.button);
+    sendButtonContainer.classList.add(this._options.classes.buttonPrimary);
 
     const sendButton = document.createElement('button');
     sendButton.innerText = this._options.texts.send;
@@ -482,7 +487,7 @@ export class Feedback {
     actions.appendChild(sendButtonContainer);
 
     const cancelButtonContainer = document.createElement('div');
-    cancelButtonContainer.classList.add('mat-button');
+    cancelButtonContainer.classList.add(this._options.classes.button);
 
     const cancelButton = document.createElement('button');
     cancelButton.innerText = this._options.texts.cancel;
@@ -495,7 +500,7 @@ export class Feedback {
 
   private _createDrawOptions(): HTMLDivElement {
     const drawOptions = document.createElement('div');
-    drawOptions.className = `${this._options.classPrefix}draw-options`;
+    drawOptions.className = `${this._options.classes.prefix}draw-options`;
 
     const draggerContainer = document.createElement('div');
     draggerContainer.className = 'dragger';
@@ -512,6 +517,8 @@ export class Feedback {
     const highlightButton = document.createElement('button');
     highlightButton.innerText = this._options.texts.highlight;
     highlightButton.type = 'button';
+    highlightButton.classList.add(this._options.classes.button)
+    highlightButton.classList.add(this._options.classes.buttonDefault)
     highlightButton.addEventListener('click', () => this._state.highlight = true);
     highlightButtonContainer.appendChild(highlightButton);
     drawOptions.appendChild(highlightButtonContainer);
@@ -520,17 +527,19 @@ export class Feedback {
     const blackoutButton = document.createElement('button');
     blackoutButton.innerText = this._options.texts.blackout;
     blackoutButton.type = 'button';
+    blackoutButton.classList.add(this._options.classes.button)
+    blackoutButton.classList.add(this._options.classes.buttonDefault)
     blackoutButton.addEventListener('click', () => this._state.highlight = false);
     blackoutButtonContainer.appendChild(blackoutButton);
     drawOptions.appendChild(blackoutButtonContainer);
 
     const doneButtonContainer = document.createElement('div');
-    doneButtonContainer.classList.add('mat-button');
-    doneButtonContainer.classList.add('primary');
 
     const doneButton = document.createElement('button');
     doneButton.innerText = this._options.texts.done;
     doneButton.type = 'button';
+    doneButton.classList.add(this._options.classes.button)
+    doneButton.classList.add(this._options.classes.buttonDefault)
     doneButton.addEventListener('click', this._closeDrawer);
     doneButtonContainer.appendChild(doneButton);
     drawOptions.appendChild(doneButtonContainer);
@@ -896,8 +905,8 @@ export class Feedback {
     container.innerText = this._options.texts.sent;
 
     const buttonContainer = document.createElement('div');
-    buttonContainer.classList.add('mat-button');
-    buttonContainer.classList.add('primary');
+    buttonContainer.classList.add(this._options.classes.button);
+    buttonContainer.classList.add(this._options.classes.buttonPrimary);
 
     const button = document.createElement('button');
     button.innerText = this._options.texts.ok;
@@ -920,8 +929,8 @@ export class Feedback {
     actions.className = 'actions';
 
     const backButtonContainer = document.createElement('div');
-    backButtonContainer.classList.add('mat-button');
-    backButtonContainer.classList.add('primary');
+    backButtonContainer.classList.add(this._options.classes.button);
+    backButtonContainer.classList.add(this._options.classes.buttonPrimary);
 
     const backButton = document.createElement('button');
     backButton.innerText = this._options.texts.back;
@@ -934,7 +943,7 @@ export class Feedback {
     actions.appendChild(backButtonContainer);
 
     const closeButtonContainer = document.createElement('div');
-    closeButtonContainer.classList.add('mat-button');
+    closeButtonContainer.classList.add(this._options.classes.button);
 
     const closeButton = document.createElement('button');
     closeButton.innerText = this._options.texts.close;
