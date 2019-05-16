@@ -260,7 +260,7 @@ export class Feedback {
     headers.append('Content-Type', 'application/json');
 
     const data = {
-      description: this._form[0].value,
+      description: this._form[0].nodeValue,
       screenshot: this._screenshotCanvas.toDataURL()
     };
 
@@ -405,7 +405,7 @@ export class Feedback {
 
   private _createTextarea(): HTMLTextAreaElement {
     const textarea = document.createElement('textarea');
-    textarea.placeholder = 'Describe your issue or share your ideas.';
+    textarea.placeholder = this._options.texts.describe;
     return textarea;
   }
 
