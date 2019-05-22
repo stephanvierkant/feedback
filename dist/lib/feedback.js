@@ -353,6 +353,7 @@ class Feedback {
         fetch(this._options.endpoint, {
             method: 'POST',
             headers: headers,
+            credentials: "same-origin",
             body: JSON.stringify(data)
         })
             .then(resp => {
