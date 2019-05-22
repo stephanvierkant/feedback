@@ -347,7 +347,7 @@ class Feedback {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         const data = {
-            description: this._form[0].nodeValue,
+            description: this._form[0].value,
             screenshot: this._screenshotCanvas.toDataURL()
         };
         fetch(this._options.endpoint, {
